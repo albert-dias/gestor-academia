@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  ALUNO
+  USERSYSTEM
+  ADMSYSTEM
+}
+
+enum Type {
+  PIX
+  CARD
+  MONEY
+}
+
+enum Status {
+  ATIVO
+  INATIVO
+}
+
+model Companies {
+  id         String   @id @default(uuid())
+  name       String
+  address    String
+  number     String?
+  district   String
+  city       String?
+  state      String?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  users      Users[]
+
+  @@map("companies")
+}
+
+model Users {
+  id            String          @id @default(uuid())
+  company_id    String
+  company       Companies       @relation(fields: [company_id], references: [id])
+  email         String          @unique
+  password      String
+  avatar_url    String?
+  people_id     String          @unique
+  people        People          @relation(fields: [people_id], references: [id])
+  user_type     UserType        @default(ALUNO)
+  status        Status          @default(ATIVO)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @default(now())
+  historics     Historics[]
+  payment       Payments[]
+  frequency     Frequencys[]
+  notifications Notifications[]
+
+  @@map("uses")
+}
+
+model People {
+  id            String    @id @default(uuid())
+  name          String
+  last_name     String
+  phone         String
+  birthday      DateTime  @db.Date
+  phone_resp    String
+  fullname_resp String
+  last_payment  DateTime? @db.Date
+  due_date      Int
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now())
+  user          Users?
+
+  @@map("people")
+}
+
+model Historics {
+  id         String   @id @default(uuid())
+  user_id    String
+  user       Users    @relation(fields: [user_id], references: [id])
+  range      String
+  chevron    Int
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("historics")
+}
+
+model Payments {
+  id         String   @id @default(uuid())
+  user_id    String
+  user       Users    @relation(fields: [user_id], references: [id])
+  value      Int
+  type       Type     @default(MONEY)
+  created_at DateTime @default(now())
+
+  @@map("payments")
+}
+
+model Frequencys {
+  id         String   @id @default(uuid())
+  user_id    String
+  user       Users    @relation(fields: [user_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("frequencys")
+}
+
+model Notifications {
+  id             String   @id @default(uuid())
+  destination_id String
+  destination    Users    @relation(fields: [destination_id], references: [id])
+  read           Boolean
+  title          String?
+  message        String
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now())
+
+  @@map("notifications")
+}
