@@ -1,22 +1,29 @@
 import { Companies, PrismaClient, Users } from "@prisma/client";
 
 interface IRequest {
-  user_id: string;
+  company_id: string;
 }
 
 const prisma = new PrismaClient();
 
-export async function ShowUserService({
-  user_id,
-}: IRequest): Promise<Companies> {
-  const user = await prisma.users.findFirst({ where: { id: user_id } });
+export async function ListUsersService({
+  company_id,
+}: IRequest): Promise<Users[]> {
+  // const user = await prisma.users.findFirst({ where: { id: user_id } });
 
-  const result = await prisma.companies.findFirstOrThrow({
+  const result = await prisma.users.findMany({
     where: {
-      id: user?.company_id,
+      company_id,
+      user_type: "ALUNO",
     },
     include: {
-      users: true,
+      people: true,
+      historics: true,
+    },
+    orderBy: {
+      people: {
+        name: "asc",
+      },
     },
   });
 

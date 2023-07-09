@@ -11,9 +11,10 @@ const adminRouter = Router();
 
 // adminRouter.post("/", adminController.create);
 // adminRouter.post("/forgot", adminController.forgot);
-// adminRouter.post("/updatpass", adminController.updatepass);
+adminRouter.get("/student", adminController.list);
 adminRouter.post("/student", adminController.create);
 adminRouter.post("/student/update-graduation", adminController.graduation);
+
 // adminRouter.post("/me/avatar", ensureAuthenticate, upload.single("avatar"), adminController.update);
 
 export default adminRouter;

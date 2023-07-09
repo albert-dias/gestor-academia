@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { CreateUserService } from "../services/CreateUserService";
 import { ShowUserService } from "../services/ShowUserService";
 import { CreateHistoricService } from "../services/CreateHistoricService";
+import { ListUsersService } from "../services/ListUsersService";
 
 // interface IFile extends Express.Multer.File {
 //   key: string;
@@ -17,7 +18,6 @@ export class AdminController {
         name,
         last_name,
         phone,
-        password,
         birthday,
         phone_resp,
         fullname_resp,
@@ -32,7 +32,6 @@ export class AdminController {
         name,
         last_name,
         phone,
-        password,
         birthday,
         phone_resp,
         fullname_resp,
@@ -68,9 +67,9 @@ export class AdminController {
 
   async list(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.user;
+      const { company_id } = req.user;
 
-      const user = await ShowUserService({ user_id: id });
+      const user = await ListUsersService({ company_id });
 
       return res.status(200).json(user);
     } catch (error: any) {

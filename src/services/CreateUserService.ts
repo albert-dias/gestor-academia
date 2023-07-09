@@ -3,7 +3,6 @@ import { hash } from "bcryptjs";
 
 interface IRequest {
   email: string;
-  password: string;
   name: string;
   last_name: string;
   phone: string;
@@ -25,7 +24,6 @@ export async function CreateUserService({
   name,
   last_name,
   phone,
-  password,
   birthday,
   phone_resp,
   fullname_resp,
@@ -41,7 +39,6 @@ export async function CreateUserService({
     !name ||
     !last_name ||
     !phone ||
-    !password ||
     !birthday ||
     !phone_resp ||
     !fullname_resp ||
@@ -75,6 +72,8 @@ export async function CreateUserService({
     ? new Date(Number(lPTrat[0]), Number(lPTrat[1]) - 1, Number(lPTrat[2]))
     : null;
 
+  const chevronNumber = Number(chevron);
+
   const result = await prisma.users.create({
     data: {
       email: tratEmail,
@@ -97,7 +96,7 @@ export async function CreateUserService({
       historics: {
         create: {
           range: rangeTrat,
-          chevron,
+          chevron: chevronNumber,
         },
       },
     },
