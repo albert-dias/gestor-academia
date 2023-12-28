@@ -61,7 +61,7 @@ model Users {
   frequency     Frequencys[]
   notifications Notifications[]
 
-  @@map("uses")
+  @@map("users")
 }
 
 model People {
