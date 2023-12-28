@@ -14,6 +14,7 @@ const usersRouter = Router();
 // usersRouter.post("/forgot", usersController.forgot);
 // usersRouter.post("/updatpass", usersController.updatepass);
 usersRouter.get("/me", ensureAuthenticate, usersController.show);
+usersRouter.post("/frequency", ensureAuthenticate, usersController.confirmFrequency);
 // usersRouter.post("/me/avatar", ensureAuthenticate, upload.single("avatar"), usersController.update);
 
 export default usersRouter;

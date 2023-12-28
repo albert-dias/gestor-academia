@@ -35,6 +35,7 @@ model Companies {
   district   String
   city       String?
   state      String?
+  document   String?
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
   users      Users[]

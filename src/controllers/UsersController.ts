@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserService } from "../services/CreateUserService";
 import { ShowUserService } from "../services/ShowUserService";
+import { CreateUserFrequencyService } from "../services/CreateUserFrequencyService";
 
 // interface IFile extends Express.Multer.File {
 //   key: string;
@@ -8,14 +9,17 @@ import { ShowUserService } from "../services/ShowUserService";
 // }
 
 export class UsersController {
-  // async forgot(req: Request, res: Response): Promise<Response> {
-  //   try {
+  async confirmFrequency(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.user;
 
-  //     return res.status(201).json({ message: 'success' });
-  //   } catch (error) {
-  //     return res.status(400).json({ message: error.message });
-  //   }
-  // }
+      const frequency = await CreateUserFrequencyService({ user_id: id });
+
+      return res.status(201).json(frequency);
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
 
   async show(req: Request, res: Response): Promise<Response> {
     try {

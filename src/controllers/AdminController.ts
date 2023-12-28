@@ -3,6 +3,7 @@ import { CreateUserService } from "../services/CreateUserService";
 import { ShowUserService } from "../services/ShowUserService";
 import { CreateHistoricService } from "../services/CreateHistoricService";
 import { ListUsersService } from "../services/ListUsersService";
+import { CreateUserFrequencyService } from "../services/CreateUserFrequencyService";
 
 // interface IFile extends Express.Multer.File {
 //   key: string;
@@ -72,6 +73,30 @@ export class AdminController {
       const user = await ListUsersService({ company_id });
 
       return res.status(200).json(user);
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async showUser(req: Request, res: Response): Promise<Response> {
+    try {
+      const { user_id } = req.params;
+
+      const user = await ShowUserService({ user_id });
+
+      return res.status(200).json(user);
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async confirmUserFrequency(req: Request, res: Response): Promise<Response> {
+    try {
+      const { user_id } = req.body;
+
+      const frequency = await CreateUserFrequencyService({ user_id });
+
+      return res.status(201).json(frequency);
     } catch (error: any) {
       return res.status(400).json({ message: error.message });
     }

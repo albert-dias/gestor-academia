@@ -12,6 +12,8 @@ const adminRouter = Router();
 // adminRouter.post("/", adminController.create);
 // adminRouter.post("/forgot", adminController.forgot);
 adminRouter.get("/student", adminController.list);
+adminRouter.get("/student/:user_id", adminController.showUser);
+adminRouter.post("/student/frequency", adminController.confirmUserFrequency);
 adminRouter.post("/student", adminController.create);
 adminRouter.post("/student/update-graduation", adminController.graduation);
 
