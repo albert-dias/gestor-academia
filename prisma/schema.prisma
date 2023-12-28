@@ -35,7 +35,7 @@ model Companies {
   district   String
   city       String?
   state      String?
-  document   String?
+  document   String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
   users      Users[]
@@ -61,7 +61,7 @@ model Users {
   frequency     Frequencys[]
   notifications Notifications[]
 
-  @@map("uses")
+  @@map("users")
 }
 
 model People {
